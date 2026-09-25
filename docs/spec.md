@@ -78,6 +78,8 @@ Word IDs, positions, and per-word ayah membership are all generated automaticall
 - **Conversation cadence:** roughly one fresh conversation per 2–3 batches (~20–30 pages), not one per single batch — bounds conversation length (the real cost driver, via context re-processing) without paying fixed re-orientation overhead too often. Adjustable empirically.
 - **Model tiers:** Sonnet for actual page transcription (vision + accuracy is what matters). Haiku for applying corrections once the user has specified the fix (mechanical, no ambiguity). No model needed for the structural validator or an OCR cross-check (plain code/tools). Opus reserved for genuinely ambiguous cases only.
 - **Optional, not yet built:** independent OCR cross-check alongside AI vision reading, flagging disagreements for extra human scrutiny.
+- **Unfamiliar recitation-notation symbols** (tasheel, sila, sakta, imala, etc.): don't halt transcription per-occurrence — flag inline in that batch's review sheet, resolve at the same review pass. Lookup order: standard Unicode Quranic-annotation range first (often already covers it) → Tarteel QUL → other Qaloon-specific sources. Every resolved symbol gets logged in `docs/symbols_glossary.md` (not yet created) so it's never re-researched — a new conversation would pull this alongside `schema.md`/`manifest.json` once it exists.
+- **End-of-session habit:** a dated summary to `docs/sessions/YYYY-MM-DD.md` (this session only, never merged), `docs/handoff.md` kept current, GitHub changes prepared with exact push commands for the user to run.
 
 ---
 
@@ -107,6 +109,8 @@ Two different audiences, two different homes:
 | `data/quran_layout.jsonl`, `data/quran_words.jsonl` | GitHub repo | The dataset itself. |
 | `scripts/validate.py` | GitHub repo | Run every batch, before human review. |
 | `docs/spec.md`, `docs/handoff.md` | GitHub repo (mirrored) | Anyone cloning the repo for full context — a future contributor, another AI tool, or the user without claude.ai access. **Not** needed by a batch-transcription conversation. |
+| `docs/sessions/YYYY-MM-DD.md` | GitHub repo only | One per session, never merged — an audit trail. Not needed by a batch-transcription conversation. |
+| `docs/symbols_glossary.md` (not yet created) | GitHub repo | Every batch-transcription conversation, once it exists — resolved recitation-notation symbols, so none get re-researched. |
 | `claude/spec.md` | claude.ai Project | The working copy, edited directly during conversations. Mirrored here on meaningful updates. |
 
 A batch-transcription conversation pulling the repo gets everything it needs without ever touching `spec.md`.
@@ -137,3 +141,5 @@ A batch-transcription conversation pulling the repo gets everything it needs wit
 | 2026-09-25 | Repo scaffolded (`schema.md`, `data/manifest.json`, `scripts/validate.py`, `README.md`) and pushed by the user manually (session's GitHub connection didn't grant this sandbox push access — separate, session-level repo authorization needed). Validator smoke-tested against a broken fixture, caught all planted errors. | User gave the go-ahead; this session's git proxy returned 403 on push attempts even after connecting GitHub generally. |
 | 2026-09-25 | Realized `spec.md`/`handoff.md` were Project-only, leaving the repo non-self-contained — conflicts with handoff.md's own stated purpose ("another AI tool" should be able to pick up). Mirrored both into `docs/` in the repo. | User asked why the repo didn't have them. |
 | 2026-09-25 | Full rewrite of this doc: removed resolved items and superseded-design narrative from the main body, added §5 (Working Process) and §8 (Repo & Docs Layout) as permanent reference sections. | User asked for a clean rewrite reflecting only current state, not the path taken to get there. |
+| 2026-09-25 | Agreed symbol-handling workflow for unfamiliar recitation marks (Unicode check → QUL → other sources → log in `docs/symbols_glossary.md`). Not yet created — no symbol has been encountered in real transcription yet. | User raised tasheel/sila as an example; workflow needed before pilot batch. |
+| 2026-09-25 | End-of-session habit formalized: session summary now goes to `docs/sessions/` in the repo (not just the Project), for the same portability reason spec.md/handoff.md were moved there. First entry: `docs/sessions/2026-09-25.md`. | User asked what the end-of-session habit should be, now that real repo infrastructure exists. |

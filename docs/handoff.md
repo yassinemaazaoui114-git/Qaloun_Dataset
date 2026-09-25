@@ -2,16 +2,18 @@
 
 > Read this first if you're picking this project up cold (a new conversation, another AI tool, or the user returning after a gap). For full decision history and rationale, see `docs/spec.md` in this same folder.
 
-**As of:** 2026-09-25
+**As of:** 2026-09-25 (end of session — see `docs/sessions/2026-09-25.md` for that session's own log)
 
 ## What's done
 
 - Project scoped: textual Qaloon dataset, layout-faithful to the Tunisian Mushaf Al-Mu'allim print edition, published openly. App/model are future, separate phases.
 - Schema finalized: two tables — `quran_layout` (line-level, faithful text + word-ID ranges) and `quran_words` (word-level, normalized). Full field definitions in `schema.md`.
 - Source pinned: Internet Archive item `qalooon-tones`, 605 page images / PDF.
-- Repo scaffolded and live: `schema.md`, `data/manifest.json`, `scripts/validate.py`, `README.md`, `docs/spec.md`, `docs/handoff.md` (this file).
-- Structural validator built and smoke-tested (catches line-sequence gaps, ayah-sequence gaps, out-of-order word positions, dangling word-ID references).
-- Working process agreed: 10-page batches, verify-before-continuing, two-layer QA (automatic structural check, then human word-level check against the source image), model tiers assigned per step (Sonnet for transcription, Haiku for mechanical corrections, no model for the validator).
+- Repo scaffolded and live, self-contained: `schema.md`, `data/manifest.json`, `scripts/validate.py`, `README.md`, `docs/spec.md`, `docs/handoff.md` (this file), `docs/sessions/` (dated per-session summaries, never merged).
+- Structural validator built and smoke-tested (catches line-sequence gaps, ayah-sequence gaps, out-of-order word positions, dangling word-ID references). Uses each surah's own printed `ayah_count`, not an external table (Qaloon's Madani First Count differs from generic tables).
+- Working process agreed: 10-page batches, verify-before-continuing, two-layer QA (automatic structural check, then human word-level check against the source image), model tiers assigned per step (Sonnet for transcription, Haiku for mechanical corrections, no model for the validator), roughly one fresh conversation per 2-3 batches.
+- Symbol-handling workflow agreed for unfamiliar recitation marks (tasheel, sila, etc.): check standard Unicode Quranic-annotation range → QUL → other sources; log resolved ones in `docs/symbols_glossary.md` (**not yet created** — first real entry will come from the pilot batch).
+- End-of-session habit settled: session summary → `docs/sessions/YYYY-MM-DD.md`; `docs/handoff.md` kept current; GitHub changes prepared with exact push commands (this sandbox cannot push directly — confirmed, session-level repo authorization issue).
 
 ## What's in progress
 
