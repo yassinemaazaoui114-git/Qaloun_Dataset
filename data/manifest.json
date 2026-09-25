@@ -1,0 +1,23 @@
+{
+  "_comment": "Progress tracker for the Qaloon Quran dataset. One entry per printed page once its batch starts. Pages not yet started are simply absent from `pages` (not pre-listed), because the exact page count and the archive.org file-number -> printed-page-number mapping are not yet confirmed. See spec.md open question #1.",
+
+  "source": {
+    "archive_org_item": "qalooon-tones",
+    "archive_org_url": "https://archive.org/details/qalooon-tones",
+    "scanned_image_count": 605,
+    "confirmed_printed_page_range": null,
+    "confirmed": false
+  },
+
+  "batch_size": 10,
+
+  "cursor": {
+    "last_verified_page": null,
+    "last_surah": null,
+    "last_ayah": null,
+    "last_ayah_closed": null
+  },
+
+  "pages": {
+  }
+}
