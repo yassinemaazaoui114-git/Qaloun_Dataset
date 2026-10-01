@@ -4,8 +4,8 @@
 >
 > This file mirrors `claude/spec.md` in the "Iqraa Dataset" claude.ai project, which is the actively-edited working copy. This repo copy is synced on meaningful updates.
 
-**Last updated:** 2026-09-25
-**Status:** Repo scaffolded and live. Blocked on: getting the actual source page images in hand to confirm page numbering and start batch 1.
+**Last updated:** 2026-10-01
+**Status:** Pilot batch 1 (printed pages 2–11, supplied by the user as a 10-page PDF) in progress. Printed page 2 is transcribed (draft, **not verified**), all earlier flags resolved; awaiting the user's word-level verification. Session closed 2026-10-01.
 **Repo:** https://github.com/yassinemaazaoui114-git/Qaloun_Dataset
 
 ---
@@ -26,7 +26,7 @@ Build a **textual dataset of the Holy Quran in the Qaloon riwayah** (رواية 
 - Full Quran text, Qaloon riwayah, all surahs.
 - Exact printed page/line layout — one row per printed line.
 - Ayah and surah boundaries as structured data.
-- Plain black text only — no tajwid coloring.
+- **Confirmed (2026-10-01)** — Plain black text only. Tajwid *colors* are skipped, but tajwid *marks* (shadda for idgham, dot marks, small waqf letters, etc.) are kept in the text exactly as printed. Gray or colored letters are tajwid coloring: transcribe them as ordinary black text unless the user flags an exception.
 - Word-level normalization alongside the line-level faithful text (§4).
 - Every page manually verified before the next batch starts. No exceptions.
 
@@ -45,7 +45,8 @@ Build a **textual dataset of the Holy Quran in the Qaloon riwayah** (رواية 
 - **Confirmed** — Source is images only. AI does first-pass transcription; a human verifies word-by-word against the image; only then is a page "verified."
 - **Confirmed** — This sandbox cannot fetch archive.org directly (tested, blocked). The user supplies the source file directly.
 - **Confirmed** — This edition: one text block per page, no repetition rows, ~15 lines/page. One row per printed line.
-- **Open** — Mapping of archive.org file numbers (000–604) to actual printed page numbers. Do not assume 000.jpg = page 1 — must confirm once the source file is in hand, before batch 1.
+- **Confirmed (2026-10-01)** — The user supplied batch 1 as a 10-page PDF cut from the full mushaf. PDF page N = printed page N+1 (PDF page 1 = printed page 2); the PDF does not include printed page 1. Printed page 1 will be handled later. Mapping for the rest of the 605 images is still unconfirmed.
+- **Confirmed (2026-10-01)** — Page 2 has 14 line slots, not 15 (surah banners take extra height). Rows follow what is printed.
 - Pages 83 and 502 were used to design the schema. **They are illustration examples only, never run through the real verification process — not dataset content.**
 
 ---
@@ -61,7 +62,9 @@ Two tables, two append-only JSONL files:
 
 Word IDs, positions, and per-word ayah membership are all generated automatically from the same verified line text — no extra manual verification step beyond checking the line itself.
 
-**Waqf and sajda marks:** inline in `text` only, no separate structured field in v1.
+**Waqf and sajda marks:** inline in `text` only, no separate structured field in v1. When deriving `quran_words`, standalone waqf/sajda tokens (U+06D6–U+06DC, U+06DE, U+06E9) are dropped so they don't count as words. **Assumption (unconfirmed)** — user has not yet confirmed this rule.
+
+**Ayah-end marker (Confirmed 2026-10-01):** written in `text` as `﴿N﴾` with **Latin digits** (e.g. `﴿1﴾`), matching the printed circled Latin numerals. Tatweel (ـ) and dagger-alif positions are kept as the user spells them (e.g. `وَبِٱلْـَٔاخِرَةِ`, `أُوْلَـٰٓئِكَ`).
 
 **Page metadata:** `juz` is a field on every row. `hizb` line-level attachment is deferred (marginal medallions indicate it, but pinpointing the exact line needs closer inspection than done so far).
 
@@ -78,7 +81,7 @@ Word IDs, positions, and per-word ayah membership are all generated automaticall
 - **Conversation cadence:** roughly one fresh conversation per 2–3 batches (~20–30 pages), not one per single batch — bounds conversation length (the real cost driver, via context re-processing) without paying fixed re-orientation overhead too often. Adjustable empirically.
 - **Model tiers:** Sonnet for actual page transcription (vision + accuracy is what matters). Haiku for applying corrections once the user has specified the fix (mechanical, no ambiguity). No model needed for the structural validator or an OCR cross-check (plain code/tools). Opus reserved for genuinely ambiguous cases only.
 - **Optional, not yet built:** independent OCR cross-check alongside AI vision reading, flagging disagreements for extra human scrutiny.
-- **Unfamiliar recitation-notation symbols** (tasheel, sila, sakta, imala, etc.): don't halt transcription per-occurrence — flag inline in that batch's review sheet, resolve at the same review pass. Lookup order: standard Unicode Quranic-annotation range first (often already covers it) → Tarteel QUL → other Qaloon-specific sources. Every resolved symbol gets logged in `docs/symbols_glossary.md` (not yet created) so it's never re-researched — a new conversation would pull this alongside `schema.md`/`manifest.json` once it exists.
+- **Unfamiliar recitation-notation symbols** (tasheel, sila, sakta, imala, etc.): don't halt transcription per-occurrence — flag inline in that batch's review sheet, resolve at the same review pass. Lookup order: standard Unicode Quranic-annotation range first (often already covers it) → Tarteel QUL → other Qaloon-specific sources. Every resolved symbol gets logged in `docs/symbols_glossary.md` (created 2026-10-01) so it's never re-researched — a new conversation would pull this alongside `schema.md`/`manifest.json` once it exists.
 - **End-of-session habit:** a dated summary to `docs/sessions/YYYY-MM-DD.md` (this session only, never merged), `docs/handoff.md` kept current, GitHub changes prepared with exact push commands for the user to run.
 
 ---
@@ -86,7 +89,8 @@ Word IDs, positions, and per-word ayah membership are all generated automaticall
 ## 6. Publishing
 
 - **Confirmed** — Published openly.
-- **Open** — Platform, license, source-print attribution.
+- **Open** — Platform, source-print attribution.
+- **Assumption (unconfirmed)** — License: CC0 1.0 recommended (public use, no name required). "Unlicensed" was explained as all-rights-reserved by default, so not suitable. User has not chosen yet. Check whether the print edition's layout carries the publisher's rights.
 
 ---
 
@@ -110,7 +114,7 @@ Two different audiences, two different homes:
 | `scripts/validate.py` | GitHub repo | Run every batch, before human review. |
 | `docs/spec.md`, `docs/handoff.md` | GitHub repo (mirrored) | Anyone cloning the repo for full context — a future contributor, another AI tool, or the user without claude.ai access. **Not** needed by a batch-transcription conversation. |
 | `docs/sessions/YYYY-MM-DD.md` | GitHub repo only | One per session, never merged — an audit trail. Not needed by a batch-transcription conversation. |
-| `docs/symbols_glossary.md` (not yet created) | GitHub repo | Every batch-transcription conversation, once it exists — resolved recitation-notation symbols, so none get re-researched. |
+| `docs/symbols_glossary.md` | GitHub repo | Every batch-transcription conversation, once it exists — resolved recitation-notation symbols, so none get re-researched. |
 | `claude/spec.md` | claude.ai Project | The working copy, edited directly during conversations. Mirrored here on meaningful updates. |
 
 A batch-transcription conversation pulling the repo gets everything it needs without ever touching `spec.md`.
@@ -119,9 +123,10 @@ A batch-transcription conversation pulling the repo gets everything it needs wit
 
 ## 9. Open Questions
 
-1. File-number → printed-page-number mapping — needs the actual source file.
+1. File-number → printed-page-number mapping for the full 605 images (batch 1 mapping known, see §3). How to handle printed page 1 (not in the PDF) — deferred by the user.
 2. `hizb` line-level attachment — deferred, not blocking.
-3. Publishing platform, license, source attribution.
+3. Publishing platform, license choice (CC0 1.0 proposed), source attribution.
+6. Whether standalone waqf tokens should stay out of `quran_words` (current assumption).
 4. Font / text-encoding strategy for the future app — not blocking dataset work now, but a joint decision before app/design work goes far (§7).
 5. Row-type completeness (`ayah_line`/`surah_header`/`basmala`) — sufficient for the two sample pages seen; watch for new element types once real pages start flowing.
 
@@ -143,3 +148,8 @@ A batch-transcription conversation pulling the repo gets everything it needs wit
 | 2026-09-25 | Full rewrite of this doc: removed resolved items and superseded-design narrative from the main body, added §5 (Working Process) and §8 (Repo & Docs Layout) as permanent reference sections. | User asked for a clean rewrite reflecting only current state, not the path taken to get there. |
 | 2026-09-25 | Agreed symbol-handling workflow for unfamiliar recitation marks (Unicode check → QUL → other sources → log in `docs/symbols_glossary.md`). Not yet created — no symbol has been encountered in real transcription yet. | User raised tasheel/sila as an example; workflow needed before pilot batch. |
 | 2026-09-25 | End-of-session habit formalized: session summary now goes to `docs/sessions/` in the repo (not just the Project), for the same portability reason spec.md/handoff.md were moved there. First entry: `docs/sessions/2026-09-25.md`. | User asked what the end-of-session habit should be, now that real repo infrastructure exists. |
+| 2026-10-01 | Batch 1 PDF received (printed pages 2–11). Page 2 drafted to `data/drafts/` (14 lines, 61 words), validator passes. | User started the pilot batch. |
+| 2026-10-01 | User confirmed: tanween on هُدًى is real; gray/colored letters = tajwid coloring, treat as black; tajwid marks stay, only colors skipped; no sukun on ن of يُنفِقُونَ; no madda on بِمَا; كَ in مَلِكِ has kasra; وَبِٱلْـَٔاخِرَةِ and أُوْلَـٰٓئِكَ spellings given. | Resolved my page-2 legibility flags. |
+| 2026-10-01 | Ayah markers switched to Latin digits `﴿N﴾`. Printed page 1 deferred; start from page 2. | User decision. |
+| 2026-10-01 | Reference pages received (scan pages 612 madd legend, 618 waqf legend). Waqf signs confirmed: م ۘ, ج ۚ, صلى ۖ, قلى ۗ, ∴ ۛ. The user's "sila" was the waqf sign صلى, not mim-sila. Created `docs/symbols_glossary.md`. Page 2 marks all resolved. | Closed open question 6. |
+| 2026-10-01 | Page 2 marked `transcribed_unverified` in the manifest; handoff, README and session summary updated; session closed. | End of session. |

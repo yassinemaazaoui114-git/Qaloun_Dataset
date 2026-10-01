@@ -1,23 +1,41 @@
 {
-  "_comment": "Progress tracker for the Qaloon Quran dataset. One entry per printed page once its batch starts. Pages not yet started are simply absent from `pages` (not pre-listed), because the exact page count and the archive.org file-number -> printed-page-number mapping are not yet confirmed. See spec.md open question #1.",
-
+  "_comment": "Progress tracker for the Qaloon Quran dataset. One entry per printed page once its batch starts. Pages not yet started are absent from `pages`. Status values: transcribed_unverified (AI draft, human check pending) -> verified (human checked word-by-word).",
   "source": {
     "archive_org_item": "qalooon-tones",
     "archive_org_url": "https://archive.org/details/qalooon-tones",
     "scanned_image_count": 605,
     "confirmed_printed_page_range": null,
-    "confirmed": false
+    "confirmed": false,
+    "batch_1_pdf": "Range_1_-_1_10.pdf (10 pages, supplied by the user, cut from the full mushaf)",
+    "pdf_page_to_printed_page": "printed = pdf_page + 1 (PDF page 1 = printed page 2); printed page 1 not in the PDF, deferred"
   },
-
   "batch_size": 10,
-
   "cursor": {
     "last_verified_page": null,
     "last_surah": null,
     "last_ayah": null,
     "last_ayah_closed": null
   },
-
   "pages": {
+    "2": {
+      "status": "transcribed_unverified",
+      "draft_files": [
+        "data/drafts/page_0002_layout.jsonl",
+        "data/drafts/page_0002_words.jsonl",
+        "data/drafts/page_0002_review.md"
+      ],
+      "lines": 14,
+      "words": 61,
+      "structural_validator": "passed",
+      "ayah_range": "1:1-7 and 2:1-4 (ayah 4 closed on this page)"
+    }
+  },
+  "current_batch": {
+    "batch": 1,
+    "printed_pages": [
+      2,
+      11
+    ],
+    "note": "Pilot batch. Page 1 deferred."
   }
 }

@@ -1,0 +1,14 @@
+{"page": 2, "line": 1, "type": "surah_header", "surah": 1, "juz": 1, "is_centered": true, "surah_name": "سُورَةُ الْفَاتِحَةِ", "ayah_count": 7, "surah_order": 1}
+{"page": 2, "line": 2, "type": "basmala", "surah": 1, "juz": 1, "is_centered": true, "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ"}
+{"page": 2, "line": 3, "type": "ayah_line", "surah": 1, "juz": 1, "is_centered": false, "text": "ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ ﴿1﴾ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ﴿2﴾", "first_word_id": 1, "last_word_id": 6}
+{"page": 2, "line": 4, "type": "ayah_line", "surah": 1, "juz": 1, "is_centered": false, "text": "مَلِكِ يَوْمِ ٱلدِّينِ ﴿3﴾ إِيَّاكَ نَعْبُدُ وَإِيَّاكَ", "first_word_id": 7, "last_word_id": 12}
+{"page": 2, "line": 5, "type": "ayah_line", "surah": 1, "juz": 1, "is_centered": false, "text": "نَسْتَعِينُ ﴿4﴾ ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ ﴿5﴾", "first_word_id": 13, "last_word_id": 16}
+{"page": 2, "line": 6, "type": "ayah_line", "surah": 1, "juz": 1, "is_centered": false, "text": "صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ ﴿6﴾ غَيْرِ ٱلْمَغْضُوبِ", "first_word_id": 17, "last_word_id": 22}
+{"page": 2, "line": 7, "type": "ayah_line", "surah": 1, "juz": 1, "is_centered": false, "text": "عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ ﴿7﴾", "first_word_id": 23, "last_word_id": 25}
+{"page": 2, "line": 8, "type": "surah_header", "surah": 2, "juz": 1, "is_centered": true, "surah_name": "سُورَةُ الْبَقَرَةِ", "ayah_count": 285, "surah_order": 2}
+{"page": 2, "line": 9, "type": "basmala", "surah": 2, "juz": 1, "is_centered": true, "text": "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ"}
+{"page": 2, "line": 10, "type": "ayah_line", "surah": 2, "juz": 1, "is_centered": false, "text": "الٓمٓ ۚ ذَٰلِكَ ٱلْكِتَٰبُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ ﴿1﴾", "first_word_id": 26, "last_word_id": 33}
+{"page": 2, "line": 11, "type": "ayah_line", "surah": 2, "juz": 1, "is_centered": false, "text": "ٱلَّذِينَ يُؤْمِنُونَ بِٱلْغَيْبِ وَيُقِيمُونَ ٱلصَّلَوٰةَ وَمِمَّا", "first_word_id": 34, "last_word_id": 39}
+{"page": 2, "line": 12, "type": "ayah_line", "surah": 2, "juz": 1, "is_centered": false, "text": "رَزَقْنَٰهُمْ يُنفِقُونَ ﴿2﴾ وَٱلَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ", "first_word_id": 40, "last_word_id": 45}
+{"page": 2, "line": 13, "type": "ayah_line", "surah": 2, "juz": 1, "is_centered": false, "text": "إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِٱلْـَٔاخِرَةِ هُمْ يُوقِنُونَ ﴿3﴾", "first_word_id": 46, "last_word_id": 53}
+{"page": 2, "line": 14, "type": "ayah_line", "surah": 2, "juz": 1, "is_centered": false, "text": "أُوْلَـٰٓئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُوْلَـٰٓئِكَ هُمُ ٱلْمُفْلِحُونَ ﴿4﴾", "first_word_id": 54, "last_word_id": 61}

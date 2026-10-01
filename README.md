@@ -19,9 +19,7 @@ exact printed page/line layout.
 
 ## Status
 
-Scaffolding only. No pages transcribed or verified yet — next step is
-sourcing the actual page images (Archive.org item `qalooon-tones`) and
-confirming the file-number → printed-page-number mapping.
+Pilot batch 1 in progress. Printed page 2 is transcribed (draft in `data/drafts/`), awaiting human verification. Nothing is verified yet.
 
 ## License / attribution
 

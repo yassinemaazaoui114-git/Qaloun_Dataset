@@ -25,7 +25,7 @@ One row per printed line on the page. Every row has a `type`.
 | `surah` | int | all | surah number this line belongs to (for `surah_header`, the surah it introduces) |
 | `juz` | int | all | juz number (from the page header) |
 | `is_centered` | bool | all | true for `surah_header`/`basmala`, false (justified) for `ayah_line` |
-| `text` | string | `ayah_line`, `basmala` | the line **exactly as printed**, including the inline ayah-end marker (e.g. `﴿٢٧﴾`) in its printed position |
+| `text` | string | `ayah_line`, `basmala` | the line **exactly as printed**, including the inline ayah-end marker in Latin digits (e.g. `﴿27﴾`) in its printed position |
 | `first_word_id` | int | `ayah_line` | id of the first word (in `quran_words`) on this line |
 | `last_word_id` | int | `ayah_line` | id of the last word on this line |
 | `surah_name` | string | `surah_header` | e.g. `سُورَةُ الْأَحْقَافِ` |
@@ -50,7 +50,7 @@ One row per printed line on the page. Every row has a `type`.
 | `position` | int | word's position within its ayah (1-based) |
 | `text` | string | the word exactly as printed — a space-delimited token, tashkeel included. **Not** morphologically split (no prefix/suffix separation like QUL's root/lemma/POS — out of scope, we're not doing linguistic analysis) |
 
-`id` is generated automatically from the verified line text (split on spaces, strip the ayah-marker glyph) — **this is not extra manual work**. You verify the line text once; the word table is a mechanical derivative of it.
+`id` is generated automatically from the verified line text (split on spaces; drop the ayah marker `﴿N﴾` and any standalone waqf/sajda token, U+06D6–U+06DC, U+06DE, U+06E9) — **this is not extra manual work**. You verify the line text once; the word table is a mechanical derivative of it.
 
 ---
 
@@ -60,7 +60,7 @@ Printed line text (page 83, lines 3–6, from `quran_layout`):
 
 ```json
 {"page":83,"line":3,"type":"ayah_line","surah":4,"juz":5,"is_centered":false,
- "text":"عَنكُمْ ۚ وَخُلِقَ ٱلْإِنسَٰنُ ضَعِيفًا ﴿٢٨﴾ يَٰٓأَيُّهَا ٱلَّذِينَ",
+ "text":"عَنكُمْ ۚ وَخُلِقَ ٱلْإِنسَٰنُ ضَعِيفًا ﴿28﴾ يَٰٓأَيُّهَا ٱلَّذِينَ",
  "first_word_id":101,"last_word_id":109}
 {"page":83,"line":4,"type":"ayah_line","surah":4,"juz":5,"is_centered":false,
  "text":"ءَامَنُوا۟ لَا تَأْكُلُوٓا۟ أَمْوَٰلَكُم بَيْنَكُم بِٱلْبَٰطِلِ إِلَّآ أَن",
@@ -69,7 +69,7 @@ Printed line text (page 83, lines 3–6, from `quran_layout`):
  "text":"تَكُونَ تِجَٰرَةً عَن تَرَاضٍ مِّنكُمْ ۚ وَلَا تَقْتُلُوٓا۟ أَنفُسَكُمْ ۚ",
  "first_word_id":118,"last_word_id":125}
 {"page":83,"line":6,"type":"ayah_line","surah":4,"juz":5,"is_centered":false,
- "text":"إِنَّ ٱللَّهَ كَانَ بِكُمْ رَحِيمًا ﴿٢٩﴾ وَمَن يَفْعَلْ ذَٰلِكَ عُدْوَٰنًا",
+ "text":"إِنَّ ٱللَّهَ كَانَ بِكُمْ رَحِيمًا ﴿29﴾ وَمَن يَفْعَلْ ذَٰلِكَ عُدْوَٰنًا",
  "first_word_id":126,"last_word_id":133}
 ```
 
@@ -105,6 +105,12 @@ Notice: line 3's `last_word_id` (109) is ayah 29's word #2 — line 3 ends mid-a
 ## `manifest.json`
 
 Tracks progress. See `data/manifest.json` — structure documented there. Key idea: it carries a `cursor` (last verified page/surah/ayah + whether that ayah closed or is still open going into the next page) so a new batch never needs to read old page content to know where to continue.
+
+## Transcription conventions
+
+- Tajwid colors are ignored: gray/red/colored letters are transcribed as ordinary black text. Tajwid marks (shadda, dots, small letters) are kept as printed.
+- Tanween is transcribed as printed (a real tanween stays tanween).
+- Ayah-end marker: `﴿N﴾`, Latin digits.
 
 ## Status: DRAFT / UNVERIFIED
 
